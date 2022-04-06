@@ -1,10 +1,12 @@
 package com.testnotification;
 
 import android.app.Application;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +49,7 @@ public class HomePageActivity extends AppCompatActivity  {
         HashMap<String, Object> payload = new HashMap<>();
         payload.put("FIRST NAME", getIntent().getStringExtra("username").toString());
         payload.put("LAST NAME", "");
-        Smartech.getInstance(new WeakReference<>(this)).setUserIdentity("a.abdulwahab@almusbah.com");
+
         Smartech.getInstance(new WeakReference<>(this)).updateUserProfile(payload);
     }
 
@@ -58,25 +60,39 @@ public class HomePageActivity extends AppCompatActivity  {
         btn_reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Location location = new Location("");
+                location.setLatitude(18.9985652);
+                location.setLongitude(72.8259925);
+                Smartech.getInstance(new WeakReference<>(getApplicationContext())).setUserLocation(location);
 
             }
         });
         btn_parking_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HashMap<String, Object> payload = new HashMap<>();
+                payload.put("payment", "Parking Payment");
+                Smartech.getInstance(new WeakReference<>(getApplicationContext())).trackEvent("Parking Payment", payload);
 
             }
         });
         btn_addcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HashMap<String, Object> payload = new HashMap<>();
+                payload.put("cart", "Add_Cart");
+                Smartech.getInstance(new WeakReference<>(getApplicationContext())).trackEvent("Cart_Details", payload);
 
             }
         });
         btn_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // custom evnet
+                HashMap<String, Object> payload = new HashMap<>();
+                payload.put("name", "Update_Profile");
+                Smartech.getInstance(new WeakReference<>(getApplicationContext())).trackEvent("Update_Profile", payload);
+                Toast.makeText(getApplicationContext(),"Location enabled",Toast.LENGTH_SHORT).show();
             }
         });
         btn_logout.setOnClickListener(new View.OnClickListener() {

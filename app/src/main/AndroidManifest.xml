@@ -24,7 +24,7 @@
 
         <meta-data
             android:name="HANSEL_APP_KEY"
-            android:value="ACYVB2WB52H2CAWJCQ5ZZAZUEAMD4ZKVTPUIO6QIY6YCOKGBH" />
+            android:value="ACYVB2WB52H2CAWJCQ5ZZAZUEAMD4ZKVTPUIO6QIY6YCOKGBHY" />
 
         <meta-data
             android:name="SMT_USE_ENCRYPTION"
@@ -42,7 +42,7 @@
 
         <service
             android:name=".MyFirebaseMessagingService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

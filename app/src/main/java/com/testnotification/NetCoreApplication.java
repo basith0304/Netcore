@@ -12,28 +12,32 @@ import com.netcore.android.smartechpush.notification.channel.SMTNotificationChan
 
 import java.lang.ref.WeakReference;
 
+import io.hansel.core.logger.HSLLogLevel;
+
 
 public class NetCoreApplication extends Application {
     private static final String TAG = "NetCoreApplication";
     @Override public void onCreate() {
         super.onCreate();
-        Smartech.getInstance(new WeakReference<>(this)).initializeSdk(this);
-        Smartech.getInstance(new WeakReference<>(this)).setDebugLevel(SMTDebugLevel.Level.VERBOSE);
+        Smartech.getInstance(new WeakReference<>(this)).initializeSdk(this);// Initializing the SDK.
+        Smartech.getInstance(new WeakReference<>(this)).setDebugLevel(SMTDebugLevel.Level.VERBOSE);// // Enabling Smartech logs for testing.
+        // enabeling Hansel Logs
+        HSLLogLevel.all.setEnabled(true);
+        HSLLogLevel.mid.setEnabled(true);
+        HSLLogLevel.debug.setEnabled(true);
         try {
             SmartPush smartPush = SmartPush.getInstance(new WeakReference<>(this));
             smartPush.fetchAlreadyGeneratedTokenFromFCM();
         } catch (Exception e) {
             Log.e(TAG, "Fetching FCM token failed.");
         }
-        Smartech.getInstance(new WeakReference<>(this)).trackAppInstallUpdateBySmartech();
+        Smartech.getInstance(new WeakReference<>(this)).trackAppInstallUpdateBySmartech();// Tracking app install/update event.
 
     }
 
     public void SetUpChannels(){
         try{
-            SMTNotificationChannel.Builder smtBuilder = new SMTNotificationChannel.Builder(
-                    "001",
-                    "ParkingNotification",
+            SMTNotificationChannel.Builder smtBuilder = new SMTNotificationChannel.Builder("001", "ParkingNotification",
                     NotificationManager.IMPORTANCE_HIGH);
 
 //To set the description to the channel add below method.

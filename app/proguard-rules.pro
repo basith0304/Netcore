@@ -19,6 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn io.hansel.**
+-keep class io.hansel.**{*;}
+-keep class * implements io.hansel.**.* {*;}
+-keep class * extends io.hansel.**.* {*;}
+
+-keep class com.netcore.views.** { *; }
+
 -dontwarn com.netcore.android.**
 -keep class com.netcore.android.*{*;}
 -keep class  * implements com.netcore.android.** {*;}

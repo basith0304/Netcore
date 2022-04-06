@@ -1,13 +1,20 @@
 package com.testnotification;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.netcore.android.Smartech;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import io.hansel.hanselsdk.HanselActionListener;
 
@@ -25,6 +32,19 @@ public class MainActivity extends AppCompatActivity implements HanselActionListe
          edt_username=(EditText)findViewById(R.id.edt_username);
          btn_login=(Button) findViewById(R.id.btn_login);
          btn_register=(Button)findViewById(R.id.btn_register);
+        requestPermissions();
+
+    }
+
+    private void requestPermissions() {
+        String[] permissions = {
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.READ_PHONE_STATE
+        };
+
+        ActivityCompat.requestPermissions(this, permissions, 1);
+
 
     }
 
@@ -53,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements HanselActionListe
             @Override
             public void onClick(View view) {
                 if(edt_username.getText().toString().length()>0){
+                    Smartech.getInstance(new WeakReference<>(getApplicationContext())).login(edt_username.getText().toString());
+
+                    HashMap<String, Object> payload = new HashMap<>();
+                    payload.put("EMAIL", edt_username.getText().toString());
+                    payload.put("MOBILE","9900000000");
+                    Smartech.getInstance(new WeakReference<>(getApplicationContext())).updateUserProfile(payload);
 
                 }else{
                     Toast.makeText(MainActivity.this,"Please enter username to register",Toast.LENGTH_SHORT).show();
