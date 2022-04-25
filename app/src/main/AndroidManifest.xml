@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.testnotification">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -50,7 +51,18 @@
 
         <activity
             android:name=".HomePageActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="netcore"
+                    android:host="com.testnotification.HomePageActivity" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="SMT_APP_ID"

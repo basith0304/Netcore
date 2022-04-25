@@ -1,28 +1,24 @@
 package com.testnotification;
 
-import android.app.Application;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.netcore.android.Smartech;
-import com.netcore.android.smartechbase.communication.HanselInterface;
-import com.netcore.android.smartechbase.communication.SmartechInterface;
-import com.netcore.android.smartechpush.SmartPush;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class HomePageActivity extends AppCompatActivity  {
+import io.hansel.hanselsdk.HanselActionListener;
+
+public class HomePageActivity extends AppCompatActivity  implements HanselActionListener {
 
 
     TextView txt_username;
@@ -43,19 +39,16 @@ public class HomePageActivity extends AppCompatActivity  {
         btn_addcard=(Button)findViewById(R.id.btn_add_card);
         btn_update_profile=(Button)findViewById(R.id.btn_update_profile);
         btn_logout=(Button)findViewById(R.id.btn_logout);
-
-        txt_username.setText("Welcome, "+getIntent().getStringExtra("username").toString());
+    //    txt_username.setText("Welcome, "+getIntent().getStringExtra("username").toString());
 
         HashMap<String, Object> payload = new HashMap<>();
-        payload.put("FIRST NAME", getIntent().getStringExtra("username").toString());
-        payload.put("LAST NAME", "");
-
-        Smartech.getInstance(new WeakReference<>(this)).updateUserProfile(payload);
+        payload.put("LANGUAGE", "EN");
+        Smartech.getInstance(new WeakReference<>(getApplicationContext())).updateUserProfile(payload);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
+
 
         btn_reload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +91,21 @@ public class HomePageActivity extends AppCompatActivity  {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Smartech.getInstance(new WeakReference<>(HomePageActivity.this)).logoutAndClearUserIdentity(false);
+                Smartech.getInstance(new WeakReference<>(HomePageActivity.this)).logoutAndClearUserIdentity(true);
                 finish();
             }
         });
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.w("DEEP LINK","HomePageActivity Executed");
+
     }
+
+    @Override
+    public void onActionPerformed(String s) {
+        Toast.makeText(HomePageActivity.this,s.toString(),Toast.LENGTH_SHORT).show();
+    }
+}
